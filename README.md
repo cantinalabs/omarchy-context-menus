@@ -1,4 +1,4 @@
-# Omarchy context menus
+# Omarchy Context Menus
 
 The whole Omarchy menu, as a cascading context menu.
 
