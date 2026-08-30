@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "cantina.omarchy-context-menus",
+  "name": "Context menus",
+  "version": "1.0.0",
+  "author": "Cantina",
+  "license": "MIT",
+  "description": "The whole Omarchy menu as a cascading context menu: right-click the desktop, click the bar button, or press a key over any window",
+  "kinds": [
+    "overlay",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "overlay": "ContextMenu.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Context menu",
+    "description": "Cascades the Omarchy menu out of the bar button, and onto the desktop's right-click",
+    "category": "Compositor",
+    "allowMultiple": false,
+    "defaultSection": "left",
+    "defaults": {
+      "desktopRightClick": true,
+      "wallpaperDoubleClick": true,
+      "inlineApps": true,
+      "submenuDelay": 140,
+      "paneWidth": 268,
+      "rightClickCommand": "xdg-terminal-exec"
+    },
+    "schema": [
+      {
+        "key": "desktopRightClick",
+        "type": "boolean",
+        "label": "Right-click the desktop to open the menu",
+        "defaultValue": true,
+        "description": "Puts a transparent catcher above the wallpaper and below every window, so a right-click on bare desktop opens the menu under the pointer. Off leaves the desktop to whatever else wants it, and the bar button and the keybinding still work."
+      },
+      {
+        "key": "wallpaperDoubleClick",
+        "type": "boolean",
+        "label": "Double-click the desktop for the wallpaper picker",
+        "defaultValue": true,
+        "description": "The catcher takes the clicks Omarchy's background plugin would otherwise get, so it hands this one back: double-click still opens omarchy-theme-bg-switcher. Only matters while the setting above is on."
+      },
+      {
+        "key": "inlineApps",
+        "type": "boolean",
+        "label": "List applications in the menu",
+        "defaultValue": true,
+        "description": "Fills the Apps submenu in from the same library the launcher reads, icons and all, and type to narrow it. Off sends Apps to the built-in Omarchy menu instead, which searches rather than scrolls."
+      },
+      {
+        "key": "submenuDelay",
+        "type": "integer",
+        "label": "Open a submenu after",
+        "min": 0,
+        "max": 600,
+        "step": 20,
+        "defaultValue": 140,
+        "description": "Milliseconds the pointer has to rest on a row before its submenu opens. Long enough that a diagonal sweep toward an already-open submenu does not tear it down on the way past; short enough not to feel like waiting. 0 opens instantly."
+      },
+      {
+        "key": "paneWidth",
+        "type": "integer",
+        "label": "Pane width",
+        "min": 160,
+        "max": 520,
+        "step": 4,
+        "defaultValue": 268,
+        "description": "In the shell's spacing units, so it tracks the rest of your scaling. Wider suits long application names; narrower keeps a deep cascade on one screen."
+      },
+      {
+        "key": "rightClickCommand",
+        "type": "string",
+        "label": "Right-click on the bar button runs",
+        "defaultValue": "xdg-terminal-exec",
+        "description": "What a right-click on the bar button does. Matches the built-in Omarchy menu button, which opens a terminal. Empty to do nothing."
+      }
+    ]
+  }
+}
