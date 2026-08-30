@@ -106,6 +106,12 @@ the bar's widget settings.
   }
 }
 ```
+## Uninstall/Remove
+
+To safely uninstall/remove this plugin, run the following command
+
+```omarchy plugin remove cantina.omarchy-context-menus```
+
 
 ## How it fits together
 
