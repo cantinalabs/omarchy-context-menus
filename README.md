@@ -20,7 +20,7 @@ narrowed by typing at it.
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/<you>/omarchy-context-menus.git --enable
+omarchy plugin add https://github.com/cantinalabs/omarchy-context-menus.git --enable
 ```
 
 Enabling puts the bar button in the left section of your bar. It sits next to
