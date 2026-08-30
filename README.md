@@ -23,10 +23,20 @@ narrowed by typing at it.
 omarchy plugin add https://github.com/cantinalabs/omarchy-context-menus.git --enable
 ```
 
-Enabling puts the bar button in the left section of your bar. It sits next to
-the built-in Omarchy menu button rather than replacing it, so remove that one
-when you are happy with this: **Setup > Bar**, or drop `omarchy.menu` from
-`bar.layout.left` in `~/.config/omarchy/shell.json`.
+Enabling **takes the built-in menu's place**, rather than sitting next to it.
+The bar button lands in the exact slot `omarchy.menu` occupied — keeping that
+entry's own settings — and the built-in menu is switched off, so there is only
+ever one Omarchy glyph in your bar. Disabling puts it back where it was:
+
+```bash
+omarchy plugin disable cantina.omarchy-context-menus
+```
+
+Because it stands in for `omarchy.menu`, everything that already summoned the
+built-in menu now opens this one. Your existing keybinding works untouched, as
+does `omarchy-menu toggle system`, the screen-recording indicator, and anything
+else routed through that id — including `omarchy-menu refresh` and
+`omarchy-menu ping`.
 
 The desktop right-click starts working immediately. No fork or clone of the
 background plugin is involved, so whichever wallpaper renderer you run is left
@@ -34,21 +44,15 @@ alone.
 
 ## The keybinding
 
-Nothing is bound by default. In `~/.config/hypr/bindings.lua`:
+Whatever key already opened the Omarchy menu opens this one — `SUPER + SPACE`
+on a stock install — with no change to your Hyprland config. It opens at the
+pointer, above any window, a fullscreen one included, and closes on a second
+press.
+
+To bind another key, in `~/.config/hypr/bindings.lua`:
 
 ```lua
 o.bind("SUPER + R", "Context menu", "omarchy-shell shell toggle cantina.omarchy-context-menus")
-```
-
-That opens at the pointer, above any window — a fullscreen one included — and
-closes on a second press.
-
-To put it on the key the built-in menu already has, unbind that one first;
-Hyprland keeps both bindings otherwise and fires both:
-
-```lua
-hl.unbind("SUPER + SPACE")
-o.bind("SUPER + SPACE", "Context menu", "omarchy-shell shell toggle cantina.omarchy-context-menus")
 ```
 
 To land somewhere deeper in the tree, pass a route:

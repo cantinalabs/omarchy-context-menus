@@ -38,6 +38,7 @@ Item {
   property string omarchyPath: Quickshell.env("OMARCHY_PATH")
   property var shell: null
   property var manifest: null
+  property var pluginRegistry: null
 
   readonly property string pluginId: (manifest && manifest.id) ? String(manifest.id) : "cantina.omarchy-context-menus"
   readonly property var appLibrary: root.shell ? root.shell.appLibrary : null
@@ -360,8 +361,11 @@ Item {
     }
 
     // A provider this plugin cannot fill in itself: hand it to the built-in
-    // menu, opened at that route, rather than show an empty pane.
+    // menu, opened at that route, rather than show an empty pane. Unless this
+    // plugin *is* what the built-in menu resolves to -- installed as its
+    // replacement -- in which case the handoff would come straight back here.
     if (entry.provider) {
+      if (!root.stockMenuAvailable()) return
       root.dismiss()
       Util.execDetached("omarchy-menu summon " + Util.shellQuote(entry.id))
       return
@@ -371,6 +375,33 @@ Item {
       root.dismiss()
       Util.execDetached(entry.action)
     }
+  }
+
+  // Whether the built-in Omarchy menu is still a separate, reachable plugin.
+  // Declaring `clonedFrom` in the manifest disables it and makes the id
+  // `omarchy.menu` resolve to this plugin, so anything that would hand work
+  // back to it has to ask first or it is talking to itself.
+  function stockMenuAvailable() {
+    var registry = root.pluginRegistry || (root.shell ? root.shell.pluginRegistry : null)
+    if (!registry || typeof registry.resolveEnabledId !== "function") return false
+    var resolved = String(registry.resolveEnabledId("omarchy.menu") || "")
+    return resolved !== "" && resolved !== root.pluginId
+  }
+
+  // `omarchy-menu refresh` and `omarchy-menu ping` reach a plugin through
+  // `omarchy-shell shell call omarchy.menu <verb>`, so standing in for the
+  // built-in menu means answering to them as well.
+  function refresh() {
+    defaultMenuFile.reload()
+    userMenuFile.reload()
+    root.providersLoaded = ({})
+    root.evaluateGuards()
+    root.loadProvidersForOpenPanes()
+    return "ok"
+  }
+
+  function ping() {
+    return "ok"
   }
 
   // ------------------------------------------------------------- keyboard
@@ -454,6 +485,7 @@ Item {
   // ------------------------------------------------------------- sources
 
   FileView {
+    id: defaultMenuFile
     path: root.defaultMenuPath
     watchChanges: true
     printErrors: false
@@ -463,6 +495,7 @@ Item {
   }
 
   FileView {
+    id: userMenuFile
     path: root.userMenuPath
     watchChanges: true
     printErrors: false

@@ -7,13 +7,16 @@
   "license": "MIT",
   "description": "The whole Omarchy menu as a cascading context menu: right-click the desktop, click the bar button, or press a key over any window",
   "kinds": [
-    "overlay",
+    "menu",
     "bar-widget"
   ],
   "keepLoaded": true,
   "entryPoints": {
-    "overlay": "ContextMenu.qml",
+    "menu": "ContextMenu.qml",
     "barWidget": "BarWidget.qml"
+  },
+  "omarchy": {
+    "clonedFrom": "omarchy.menu"
   },
   "barWidget": {
     "displayName": "Context menu",
