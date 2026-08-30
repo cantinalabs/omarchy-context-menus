@@ -2,6 +2,8 @@
 
 The whole Omarchy menu, as a cascading context menu.
 
+![Omarchy Context Menus](preview.png)
+
 Same tree, same entries, same `when:` guards and `✓` marks as the menu on
 `SUPER + SPACE` — it reads the very same files. What changes is the
 interaction: it opens under the pointer, submenus cascade sideways as you
