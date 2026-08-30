@@ -140,6 +140,14 @@ still opens the wallpaper picker. Its double-*right*-click theme switcher is
 not, because a single right-click now opens this menu — **Style > Theme** is
 two rows away.
 
+This plugin rewrites `$HOME/.config/omarchy/shell.json` in two ways...
+
+```
+- replaces the omarchy.menu entry in bar.layout.left with this plugin's id
+- appends omarchy.menu to disabledPlugins[]
+```
+Both of these changes are undone by `omarchy plugin disable` or `omarchy plugin remove`
+
 ## IPC
 
 Everything the bar button and the catcher do is available on the
